@@ -22,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${openSans.className} text-base antialiased bg-primary-foreground`}
+        id="root"
       >
         <Header />
         {children}

@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { ContainerWrapper } from "./ContainerWrapper";
 import { CirclePlus, Menu, Search } from "lucide-react";
 import { HEADER_NAV_DATA } from "@/data/navlink";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { MobileMenu } from "./MobileMenu";
 
 // type HeaderProps = {};
 
@@ -15,8 +16,20 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const pathname = usePathname();
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMenuOpen]);
+
   return (
-    <header className="fixed w-full top-0 backdrop-blur-sm bg-primary-foreground/50 z-10">
+    <header className="fixed w-full top-0 backdrop-blur-sm bg-primary-foreground/50 z-50  inset-x-0">
       <ContainerWrapper className="flex justify-between items-center py-4 border-b px-4">
         <Link href={"/"}>
           <strong className="text-xl">
@@ -71,6 +84,8 @@ export const Header = () => {
           )}
         </nav>
       </ContainerWrapper>
+      {/* Mobile Menu */}
+      {isMenuOpen && <MobileMenu />}
     </header>
   );
 };
